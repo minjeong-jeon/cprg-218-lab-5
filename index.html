@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="reset.css">
+  <link rel="stylesheet" type="text/css" href="fonts.css">
+  <link rel="stylesheet" type="text/css" href="global.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>API</title>
+</head>
+
+<body>
+  <!-- Heading for the Page -->
+  <header class="header-container">
+    <h1>Lab 5</h1>
+    <h2>App displaying card content using API</h2>
+  </header>
+
+  <!-- News Section -->
+  <h1>News</h1>
+  <div class="search-container">
+    <input id="searchInput" type="text" placeholder="Enter a topic (e.g., technology, sports)">
+    <button id="searchButton">Search</button>
+  </div>
+  <div id="searchResults" class="card-container"></div>
+
+  <script>
+    document.getElementById('searchButton').addEventListener('click', function () {
+      const searchTerm = document.getElementById('searchInput').value;
+      if (searchTerm.trim() !== '') {
+        fetchNews(searchTerm);
+      }
+    });
+
+    function fetchNews(searchTerm) {
+      const url = `https://newsapi.org/v2/everything?q=${searchTerm}&from=2024-03-03&sortBy=publishedAt&apiKey=e0c33f34b59446cda6a234e8c619616d`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const articles = data.articles;
+          const newsDiv = document.getElementById('searchResults');
+          newsDiv.innerHTML = ''; // Clear previous search results
+
+          articles.forEach(article => {
+            const articleDiv = document.createElement('div');
+            articleDiv.classList.add('article');
+
+            const title = document.createElement('h2');
+            title.textContent = article.title;
+
+            const description = document.createElement('p');
+            description.textContent = article.description;
+
+            const source = document.createElement('p');
+            source.textContent = `Source: ${article.source.name}`;
+
+            const link = document.createElement('a');
+            link.href = article.url;
+            link.textContent = 'Read more';
+
+            articleDiv.appendChild(title);
+            articleDiv.appendChild(description);
+            articleDiv.appendChild(source);
+            articleDiv.appendChild(link);
+
+            newsDiv.appendChild(articleDiv);
+          });
+        })
+        .catch(error => console.error('Error fetching news:', error));
+    }
+  </script>
+</body>
+
+</html>
