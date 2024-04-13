@@ -8,14 +8,15 @@
 
 /* Section Header Content */
 .header-container {
-  background-color: #DDDDDD;
+  background-color: #000000;
   text-align: center;
   padding: 6rem 1rem;
+  color: #ffffff;
 }
 
 /* Option header */
 .option-container {
   text-align: center;
-  background-color: #EEEEEE;
+  background-color: #ffffff;
   padding: 3rem 1rem;
 }
